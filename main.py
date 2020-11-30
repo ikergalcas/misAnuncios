@@ -8,9 +8,9 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-# uri = 'mongodb+srv://canal:canal@cluster0.vodgj.mongodb.net/appsNube?retryWrites=true&w=majority'
+uri = 'mongodb+srv://canal:canal@cluster0.vodgj.mongodb.net/appsNube?retryWrites=true&w=majority'
 
-uri = os.environ['MONGODB_URI'] 
+# uri = os.environ['MONGODB_URI'] 
 
 client = pymongo.MongoClient(uri)
 
