@@ -1,3 +1,5 @@
+import sys
+import os
 import pymongo
 
 from bson import ObjectId
@@ -6,7 +8,9 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-uri = 'mongodb+srv://<USER>:<PASSWORD>@cluster0.vodgj.mongodb.net/<DATABASE>?retryWrites=true&w=majority'
+# uri = 'mongodb+srv://<USER>:<PASSWORD>@cluster0.vodgj.mongodb.net/<DATABASE>?retryWrites=true&w=majority'
+
+uri = os.environ['MONGODB_URI']
 
 client = pymongo.MongoClient(uri)
 
