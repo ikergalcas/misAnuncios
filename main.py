@@ -6,20 +6,20 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-uri = 'mongodb+srv://canal:canal@cluster0.vodgj.mongodb.net/appsNube?retryWrites=true&w=majority'
+uri = 'mongodb+srv://<USER>:<PASSWORD>@cluster0.vodgj.mongodb.net/<DATABASE>?retryWrites=true&w=majority'
 
 client = pymongo.MongoClient(uri)
 
 db = client.get_default_database()  
 
-adds = db['adds']
+ads = db['ads']
 
 # Definicion de metodos para endpoints
 
 @app.route('/', methods=['GET'])
 def showAds():
     
-    return render_template('ads.html', ads = list(adds.find().sort('date',pymongo.DESCENDING)))
+    return render_template('ads.html', ads = list(ads.find().sort('date',pymongo.DESCENDING)))
     
 @app.route('/new', methods = ['GET', 'POST'])
 def newAd():
@@ -32,21 +32,21 @@ def newAd():
               'priority': int(request.form['inputPriority']),
               'date': datetime.now()
              }
-        adds.insert_one(ad)
+        ads.insert_one(ad)
         return redirect(url_for('showAds'))
 
 @app.route('/edit/<_id>', methods = ['GET', 'POST'])
 def editAd(_id):
     
     if request.method == 'GET' :
-        ad = adds.find_one({'_id': ObjectId(_id)})
+        ad = ads.find_one({'_id': ObjectId(_id)})
         return render_template('edit.html', ad = ad)
     else:
         ad = { 'author': request.form['inputAuthor'],
                'text': request.form['inputText'],
                'priority' : int(request.form['inputPriority'])
              }
-        adds.update_one({'_id': ObjectId(_id) }, { '$set': ad })    
+        ads.update_one({'_id': ObjectId(_id) }, { '$set': ad })    
         return redirect(url_for('showAds'))
 
 @app.route('/delete/<_id>', methods = ['GET'])
