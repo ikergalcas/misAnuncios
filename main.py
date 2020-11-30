@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 # uri = 'mongodb+srv://<USER>:<PASSWORD>@cluster0.vodgj.mongodb.net/<DATABASE>?retryWrites=true&w=majority'
 
-uri = os.environ['MONGODB_URI']
+uri = os.environ['MONGODB_URI'] 
 
 client = pymongo.MongoClient(uri)
 
