@@ -8,9 +8,9 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-# uri = 'mongodb+srv://canal:canal@cluster0.vodgj.mongodb.net/appsNube?retryWrites=true&w=majority'
+# uri = 'mongodb+srv://canal:canal@cluster0.vodgj.mongodb.net/appsNube?retryWrites=true&w=majority&ssl=true&ssl_cert_reqs=CERT_NONE'
 
-uri = os.environ['MONGODB_URI'] + '?ssl_cert_reqs=CERT_NONE' 
+uri = os.environ['MONGODB_URI']
 
 client = pymongo.MongoClient(uri)
 
@@ -56,7 +56,7 @@ def editAd(_id):
 @app.route('/delete/<_id>', methods = ['GET'])
 def deleteAd(_id):
     
-    adds.delete_one({'_id': ObjectId(_id)})
+    ads.delete_one({'_id': ObjectId(_id)})
     return redirect(url_for('showAds'))
 
 if __name__ == '__main__':
