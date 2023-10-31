@@ -1,5 +1,5 @@
-gunicorn    # necesario para desplegar/ejecutar en Heroku
+gunicorn    # necesario para desplegar en Heroku o en Docker
+environs
 Flask
 pymongo
 dnspython
-python-dotenv

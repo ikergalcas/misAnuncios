@@ -1,22 +1,31 @@
-import sys
-import os
 import pymongo
 
+from environs import Env
 from bson import ObjectId
 from flask import Flask, render_template, request, redirect, url_for
 from datetime import datetime
 
+
 app = Flask(__name__)
 
-# uri = 'mongodb+srv://canal:canal@cluster0.vodgj.mongodb.net/appsNube?retryWrites=true&w=majority&ssl=true&ssl_cert_reqs=CERT_NONE'
+env = Env()
+env.read_env()  # read .env file, if it exists
 
-uri = os.environ['MONGODB_URI']
+uri = env('MONGO_URI')        # establecer la variable de entorno MONGO_URI con la URI de la base de datos
+                                    # MongoDB local:
+                                    #     MONGO_URI = mongodb://localhost:270M17
+                                    # MongoDB Atlas:
+                                    #     MONGO_URI = mongodb+srv://canal:canal@cluster0.vodgj.mongodb.net/appsNube?retryWrites=true&w=majority&ssl=true&ssl_cert_reqs=CERT_NONE
+                                    # MongoDB en Docker
+                                    #     MONGO_URI = mongodb://root:example@mongodb:27017
+
+print("MONGO_URI: ",uri)
 
 client = pymongo.MongoClient(uri)
 
-db = client.get_default_database()  
+db = client.misAnuncios   # db = client['misAnuncios']
 
-ads = db['ads']
+ads = db.ads              # ads = db['ads']
 
 # Definicion de metodos para endpoints
 
@@ -63,4 +72,6 @@ if __name__ == '__main__':
     # This is used when running locally only. When deploying to Google App Engine
     # or Heroku, a webserver process such as Gunicorn will serve the app. In App
     # Engine, this can be configured by adding an `entrypoint` to app.yaml.
-    app.run(host='127.0.0.1', port=5000, debug=True)
+    app.run(host='127.0.0.1', port=8000, debug=True)
+
+    # ejecucion en local: python main.py
